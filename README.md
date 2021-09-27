@@ -4,9 +4,10 @@
 
     git clone https://monstrillllo@bitbucket.org/coherentprojects/coherent-training-eugen-sapezhinsky.git
     
-##Next go to the repo folder
+##Next go to the repo folder and install requirements
 
     cd coherent-training-eugen-sapezhinsky
+    python3 -m pip install -r requirements.txt
 
 ##Now you can you it
 
