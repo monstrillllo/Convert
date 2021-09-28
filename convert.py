@@ -1,3 +1,4 @@
+import argparse
 import sys
 
 import pandas as pd
@@ -11,24 +12,23 @@ class Convert:
         self.read_args()
 
     def read_args(self):
-        if len(self.args) == 4:
-            if self.args[1] == '--csv2parquet':
-                self.csv_to_parquet(self.args[2], self.args[3])
-            elif self.args[1] == '--parquet2csv':
-                self.parquet_to_csv(self.args[2], self.args[3])
-            else:
-                print('[!]Input error! Try python3 convert.py --help')
-        elif len(self.args) == 3 and self.args[1] == '--get-schema':
-            self.get_schema(self.args[2])
-        elif len(self.args) == 2 and self.args[1] == '--help':
-            self.help_()
-        else:
-            print('[!]Input error! Try python3 convert.py --help')
+        parser = argparse.ArgumentParser('Convert csv to parquet or parquet to csv')
+        parser.add_argument('--csv2parquet', help='convert csv to parquet', type=str, metavar='PATH', nargs=2)
+        parser.add_argument('--parquet2csv', help='convert parquet to csv', type=str, metavar='PATH', nargs=2)
+        parser.add_argument('--schema', help='return schema of the file.parquet', type=str, metavar='PATH', nargs=1)
+        args = parser.parse_args()
+        if args.csv2parquet:
+            self.csv_to_parquet(args.csv2parquet[0], args.csv2parquet[1])
+        elif args.parquet2csv:
+            self.parquet_to_csv(args.parquet2csv[0], args.parquet2csv[1])
+        elif args.schema:
+            self.get_schema(args.schema[0])
 
     def csv_to_parquet(self, src_path, dst_path):
         try:
             parquet = pd.read_csv(src_path)
             parquet.to_parquet(dst_path)
+            print('Done!')
         except Exception as ex:
             print(ex)
 
@@ -36,6 +36,7 @@ class Convert:
         try:
             csv_ = pd.read_parquet(src_path, engine='pyarrow')
             csv_.to_csv(dst_path, index=False)
+            print('Done!')
         except Exception as ex:
             print(ex)
 
@@ -45,15 +46,6 @@ class Convert:
             print(parquet_file)
         except Exception as ex:
             print(ex)
-
-    def help_(self):
-        print('Usage: python3 convert.py [OPTIONS] PATH_TO_FILE NEW_FILE_PATH\n\n'
-              'Convert csv to parquet or parquet to csv\n\n'
-              'Options:\n\n'
-              ' --csv2parquet\t\tconvert file.csv to new_file.parquet\n'
-              ' --parquet2csv\t\tconvert file.parquet to new_file.csv\n'
-              ' --get-schema\t\treturn schema of the file.parquet\n'
-              ' --help\t\t\treturn this message\n')
 
 
 if __name__ == '__main__':
