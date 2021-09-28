@@ -9,7 +9,7 @@
     cd coherent-training-eugen-sapezhinsky
     python3 -m pip install -r requirements.txt
 
-##Now you can you it
+##Now you can do it
 
     python3 convert.py [--csv2parqet | --parquet2csv <src-file-path> <new-file-path>] | [--get-schema <parquet-file-path>] | [--help]
 
