@@ -22,3 +22,9 @@ Usage
      --get-schema           return schema of the file.parquet
      --help                 return this message
 
+Example
+
+    python3 convert.py --csv2parquet ./my_files/file.csv ./my_files/file.parquet
+
+    python3 convert.py --get-schema ./my_files/file.parquet
+
