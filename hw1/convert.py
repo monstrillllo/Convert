@@ -7,8 +7,7 @@ import pyarrow.parquet
 
 
 class Convert:
-    def __init__(self, args: list) -> None:
-        self.args = args
+    def __init__(self) -> None:
         self.read_args()
 
     def read_args(self):
@@ -22,7 +21,7 @@ class Convert:
         elif args.parquet2csv:
             self.parquet_to_csv(args.parquet2csv[0], args.parquet2csv[1])
         elif args.schema:
-            self.get_schema(args.schema[0])
+            print(self.get_schema(args.schema[0]))
 
     def csv_to_parquet(self, src_path, dst_path):
         try:
@@ -42,12 +41,12 @@ class Convert:
 
     def get_schema(self, path):
         try:
-            parquet_file = pyarrow.parquet.read_schema(path)
-            print(parquet_file)
+            parquet_file_schema = pyarrow.parquet.read_schema(path)
+            return parquet_file_schema
         except Exception as ex:
-            print(ex)
+            return ex
 
 
 if __name__ == '__main__':
     # print(sys.argv)
-    Convert(sys.argv)
+    Convert()
