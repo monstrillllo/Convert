@@ -1,4 +1,6 @@
 import argparse
+from typing import Union
+
 import pandas as pd
 import pyarrow
 import pyarrow.parquet
@@ -12,6 +14,7 @@ def read_args():
     ------
     None
     """
+
     parser = argparse.ArgumentParser('Convert csv to parquet or parquet to csv')
     parser.add_argument('--csv2parquet', help='convert csv to parquet', type=str, metavar='PATH', nargs=2)
     parser.add_argument('--parquet2csv', help='convert parquet to csv', type=str, metavar='PATH', nargs=2)
@@ -72,7 +75,7 @@ def convert_parquet_to_csv(src_path: str, dst_path: str) -> None:
         print(ex)
 
 
-def get_schema(path: str) -> pyarrow.Schema:
+def get_schema(path: str) -> Union[pyarrow.Schema, None]:
     """
     Convert source parquet file to destination csv file
 
